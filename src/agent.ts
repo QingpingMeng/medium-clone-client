@@ -1,11 +1,15 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getLogger } from 'log4js';
+// import { configure, getLogger } from 'log4js';
 import { IArticle } from './models/Article.model';
 import IComment from './models/Comment.model';
 import IUser from './models/User.model';
 import commonStore from './stores/commonStore';
 
-const logger = getLogger();
+// configure({
+//     appenders: { console: { type: 'console' } },
+//     categories: { default: { appenders: ['console'], level: 'info' } }
+// });
+// const logger = getLogger();
 
 const API_ROOT =
     window.location.search.indexOf('debug') > -1
@@ -31,7 +35,7 @@ axios.interceptors.request.use(
         return config;
     },
     (error: any) => {
-        logger.error('Request error', error);
+        // logger.error('Request error', error);
         return Promise.reject(error);
     }
 );
@@ -47,14 +51,14 @@ axios.interceptors.response.use(
             }
             return Promise.reject(error.response);
         } else if (error.request) {
-            logger.error(
-                'The request was made but no response was received',
-                error.request
-            );
+            // // logger.error(
+            //     'The request was made but no response was received',
+            //     error.request
+            // );
         } else {
-            logger.error(
-                'Something happened in setting up the request that triggered an Error'
-            );
+            // logger.error(
+            //     'Something happened in setting up the request that triggered an Error'
+            // );
         }
 
         return Promise.reject(error);
@@ -91,14 +95,19 @@ interface IUserResponse {
 const Auth = {
     current: () => requests.get('/user') as Promise<IUserResponse>,
     login: (email: string, password: string) =>
-        requests.post('/users/login', { user: { email, password } }) as Promise<IUserResponse>,
+        requests.post('/users/login', { user: { email, password } }) as Promise<
+            IUserResponse
+        >,
     register: (username: string, email: string, password: string) =>
-        requests.post('/users', { user: { username, email, password } }) as Promise<IUserResponse>,
-    save: (user: IUser) => requests.put('/user', { user }) as Promise<IUserResponse>
+        requests.post('/users', {
+            user: { username, email, password }
+        }) as Promise<IUserResponse>,
+    save: (user: IUser) =>
+        requests.put('/user', { user }) as Promise<IUserResponse>
 };
 
 const Tags = {
-    getAll: () => requests.get('/tags') as Promise<{tags: string[]}>
+    getAll: () => requests.get('/tags') as Promise<{ tags: string[] }>
 };
 
 const limit = (count: number, p: number) =>
@@ -106,30 +115,49 @@ const limit = (count: number, p: number) =>
 const omitSlug = (article: IArticle) =>
     Object.assign({}, article, { slug: undefined });
 
-interface ISingleArticleResponse{
+interface ISingleArticleResponse {
     article: IArticle;
 }
 
-interface IMultipleArticlesResponse{
+interface IMultipleArticlesResponse {
     articles: IArticle[];
 }
 const Articles = {
     all: (page: number, lim = 10) =>
-        requests.get(`/articles?${limit(lim, page)}`) as Promise<IMultipleArticlesResponse>,
+        requests.get(`/articles?${limit(lim, page)}`) as Promise<
+            IMultipleArticlesResponse
+        >,
     byAuthor: (author: string, page: number, lim = 10) =>
-        requests.get(`/articles?author=${encode(author)}&${limit(lim, page)}`) as Promise<IMultipleArticlesResponse>, 
+        requests.get(
+            `/articles?author=${encode(author)}&${limit(lim, page)}`
+        ) as Promise<IMultipleArticlesResponse>,
     byTag: (tag: string, page: number, lim = 10) =>
-        requests.get(`/articles?tag=${encode(tag)}&${limit(lim, page)}`) as Promise<IMultipleArticlesResponse>,
-    create: (article: IArticle) => requests.post('/articles', { article }) as Promise<ISingleArticleResponse>,
+        requests.get(
+            `/articles?tag=${encode(tag)}&${limit(lim, page)}`
+        ) as Promise<IMultipleArticlesResponse>,
+    create: (article: IArticle) =>
+        requests.post('/articles', { article }) as Promise<
+            ISingleArticleResponse
+        >,
     del: (slug: string) => requests.del(`/articles/${slug}`),
-    favorite: (slug: string) => requests.post(`/articles/${slug}/favorite`) as Promise<ISingleArticleResponse>,
+    favorite: (slug: string) =>
+        requests.post(`/articles/${slug}/favorite`) as Promise<
+            ISingleArticleResponse
+        >,
     favoritedBy: (author: string, page: number, lim = 10) =>
         requests.get(
             `/articles?favorited=${encode(author)}&${limit(lim, page)}`
         ) as Promise<IMultipleArticlesResponse>,
-    feed: () => requests.get('/articles/feed?limit=10&offset=0') as Promise<IMultipleArticlesResponse>,
-    get: (slug: string) => requests.get(`/articles/${slug}`) as Promise<ISingleArticleResponse>,
-    unfavorite: (slug: string) => requests.del(`/articles/${slug}/favorite`) as Promise<ISingleArticleResponse>,
+    feed: () =>
+        requests.get('/articles/feed?limit=10&offset=0') as Promise<
+            IMultipleArticlesResponse
+        >,
+    get: (slug: string) =>
+        requests.get(`/articles/${slug}`) as Promise<ISingleArticleResponse>,
+    unfavorite: (slug: string) =>
+        requests.del(`/articles/${slug}/favorite`) as Promise<
+            ISingleArticleResponse
+        >,
     update: (article: IArticle) =>
         requests.put(`/articles/${article.slug}`, {
             article: omitSlug(article)
@@ -146,26 +174,40 @@ interface IMultipleCommentsResponse {
 
 const Comments = {
     create: (slug: string, comment: string) =>
-        requests.post(`/articles/${slug}/comments`, { comment }) as Promise<ISingleCommentResponse>,
+        requests.post(`/articles/${slug}/comments`, { comment }) as Promise<
+            ISingleCommentResponse
+        >,
     delete: (slug: string, commentId: string) =>
-        requests.del(`/articles/${slug}/comments/${commentId}`) as Promise<ISingleCommentResponse>,
-    forArticle: (slug: string) => requests.get(`/articles/${slug}/comments`) as Promise<IMultipleCommentsResponse>
+        requests.del(`/articles/${slug}/comments/${commentId}`) as Promise<
+            ISingleCommentResponse
+        >,
+    forArticle: (slug: string) =>
+        requests.get(`/articles/${slug}/comments`) as Promise<
+            IMultipleCommentsResponse
+        >
 };
 
-interface IProfile{
+interface IProfile {
     username: string;
     bio: string;
     image: string;
     following: boolean;
 }
 
-interface IProfileResponse{
+interface IProfileResponse {
     profile: IProfile;
 }
 const Profile = {
-    follow: (username: string) => requests.post(`/profiles/${username}/follow`) as Promise<IProfileResponse>,
-    get: (username: string) => requests.get(`/profiles/${username}`) as Promise<IProfileResponse>,
-    unfollow: (username: string) => requests.del(`/profiles/${username}/follow`) as Promise<IProfileResponse>
+    follow: (username: string) =>
+        requests.post(`/profiles/${username}/follow`) as Promise<
+            IProfileResponse
+        >,
+    get: (username: string) =>
+        requests.get(`/profiles/${username}`) as Promise<IProfileResponse>,
+    unfollow: (username: string) =>
+        requests.del(`/profiles/${username}/follow`) as Promise<
+            IProfileResponse
+        >
 };
 
 export default {

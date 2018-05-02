@@ -1,0 +1,16 @@
+.header-container {
+    flex-grow: 1;
+}
+
+.heaer-menu-button {
+    margin-left: -12px;
+    margin-right: 20px;
+}
+
+.header-title {
+    flex: 1;
+}
+
+.eader-avatar {
+    margin: 10px;
+}

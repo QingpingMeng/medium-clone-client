@@ -3,18 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/icons": "^1.0.0-beta.43",
     "axios": "^0.18.0",
     "log4js": "^2.5.3",
+    "material-ui": "^1.0.0-beta.44",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",
+    "promise.prototype.finally": "^3.1.0",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
     "@types/node": "^8.10.11",
+    "@types/promise.prototype.finally": "^2.0.2",
     "@types/react": "^16.3.13",
     "@types/react-dom": "^16.0.5",
+    "@types/react-router-dom": "^4.2.6",
     "react-scripts-ts": "2.15.1",
     "typescript": "^2.8.3"
   },

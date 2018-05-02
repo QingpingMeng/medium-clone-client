@@ -1,7 +1,7 @@
 import { action, observable, reaction } from 'mobx';
 // import agent from '../agent';
 
-class CommonStore {
+export class CommonStore {
     @observable public appName = 'Conduit';
     @observable public token = window.localStorage.getItem('jwt');
     @observable public appLoaded = false;

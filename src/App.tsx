@@ -1,22 +1,24 @@
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import './App.css';
+import Header from './components/Header/Header';
+import { CommonStore } from './stores/commonStore';
 
-import logo from './logo.svg';
+interface InjectedProps {
+    commonStore: CommonStore;
+}
 
-class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+@inject('commonStore')
+@observer
+class App extends React.Component<{}, {}> {
+    get injectedProps() {
+        return this.props as InjectedProps;
+    }
+
+    public render() {
+        return (
+          <Header />
+        )
+    }
 }
 
 export default App;

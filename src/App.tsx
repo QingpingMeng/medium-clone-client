@@ -7,6 +7,7 @@ import { CommonStore } from './stores/commonStore';
 import { UserStore } from './stores/userStore';
 
 import "./App.css";
+import Login from './components/Login/Login';
 
 interface InjectedProps extends Partial<RouteComponentProps<any>> {
     commonStore: CommonStore;
@@ -41,6 +42,7 @@ class App extends React.Component<RouteComponentProps<any>, never> {
                     <Header />
                     <Switch>
                         <Route path="/register" component={Register} />
+                        <Route path="/login" component={Login} />
                     </Switch>
                 </div>
             )

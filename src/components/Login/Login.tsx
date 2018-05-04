@@ -15,7 +15,7 @@ interface InjectedProps {
 
 @inject('authStore')
 @observer
-export default class Register extends React.Component<{}, {}> {
+export default class Login extends React.Component<{}, {}> {
     public get injectedProps() {
         return this.props as InjectedProps;
     }
@@ -33,30 +33,16 @@ export default class Register extends React.Component<{}, {}> {
                         align="center"
                         component="h1"
                     >
-                        Sign up
+                        Log in
                     </Typography>
                     <div className="center">
-                        <LinkButton to="/login">Have an account?</LinkButton>
+                        <LinkButton to="/register">Need an account?</LinkButton>
                     </div>
                     <form
                         onSubmit={this.handleSubmitForm}
                         className="center"
                         style={{ width: '50%', margin: 'auto' }}
                     >
-                        <TextField
-                            id="username"
-                            label="Username"
-                            value={values.username}
-                            error={Boolean(errors && errors.username)}
-                            fullWidth={true}
-                            required={true}
-                            helperText={errors && errors.username && errors.username.join(';')}
-                            FormHelperTextProps={{
-                                error: Boolean(errors && errors.username)
-                            }}
-                            onChange={this.handleChange('username')}
-                            margin="normal"
-                        />
                         <TextField
                             id="email"
                             label="Email"
@@ -90,7 +76,7 @@ export default class Register extends React.Component<{}, {}> {
                         >
                             {inProgress && (
                                 <CircularProgress size={20} color="secondary" />
-                            )}Sign up
+                            )}Sign in
                         </Button>
                     </form>
                 </CenterPaper>
@@ -107,7 +93,7 @@ export default class Register extends React.Component<{}, {}> {
     private handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         this.injectedProps.authStore
-            .register()
+            .login()
             .then(() => this.routeProps.history.replace('/'));
     };
 }

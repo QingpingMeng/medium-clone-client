@@ -27,6 +27,26 @@ export class AuthStore {
     }
 
     @action
+    public login() {
+        this.inProgress = true;
+        this.errors = undefined;
+        return agent.Auth.login(this.values.email, this.values.password)
+            .then(({ user }) => commonStore.setToken(user.token))
+            .then(() => userStore.pullUser())
+            .catch(
+                action((err: any) => {
+                    this.errors = err && err.data && err.data.errors;
+                    throw err;
+                })
+            )
+            .finally(
+                action(() => {
+                    this.inProgress = false;
+                })
+            );
+    }
+
+    @action
     public register() {
         this.inProgress = true;
         this.errors = undefined;
@@ -41,10 +61,7 @@ export class AuthStore {
             .then(() => userStore.pullUser())
             .catch(
                 action((err: any) => {
-                    this.errors =
-                        err &&
-                        err.data &&
-                        err.data.errors;
+                    this.errors = err && err.data && err.data.errors;
                     throw err;
                 })
             )

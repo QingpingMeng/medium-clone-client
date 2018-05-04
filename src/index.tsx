@@ -6,10 +6,12 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
+import authStore from './stores/authStore'
 import commonStore from './stores/commonStore';
 import userStore from './stores/userStore';
 
 const stores ={
+  authStore,
   commonStore,
   userStore
 };

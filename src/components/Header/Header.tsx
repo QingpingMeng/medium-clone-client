@@ -55,7 +55,7 @@ class Header extends React.Component<RouteComponentProps<{}>, {}> {
                             <Button key="login" onClick={this.linkTo('/login')} color="inherit">
                                 Login
                             </Button>,
-                            <Button key="register" onClick={this.linkTo('/signup')} color="inherit">
+                            <Button key="register" onClick={this.linkTo('/register')} color="inherit">
                                 Sign up
                             </Button>
                         ]}

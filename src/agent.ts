@@ -14,17 +14,10 @@ import commonStore from './stores/commonStore';
 const API_ROOT =
     window.location.search.indexOf('debug') > -1
         ? 'http://localhost:3000/api'
-        : 'https://abkos6c4j2.execute-api.us-east-1.amazonaws.com/dev/api';
+        : 'https://fk3bqhh8j6.execute-api.us-east-1.amazonaws.com/prod/api';
 
 const responseBody = (res: AxiosResponse) => res.data;
 const encode = encodeURIComponent;
-
-const handleUnauthorized = (error: AxiosError) => {
-    if (error && error.response && error.response.status === 401) {
-        // logout
-    }
-    return error;
-};
 
 axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
@@ -69,23 +62,19 @@ const requests = {
     del: (url: string) =>
         axios
             .delete(`${API_ROOT}${url}`)
-            .then(responseBody)
-            .catch(handleUnauthorized),
+            .then(responseBody),
     get: (url: string) =>
         axios
             .get(`${API_ROOT}${url}`)
-            .then(responseBody)
-            .catch(handleUnauthorized),
+            .then(responseBody),
     post: (url: string, data?: any) =>
         axios
             .post(`${API_ROOT}${url}`, data)
-            .then(responseBody)
-            .catch(handleUnauthorized),
+            .then(responseBody),
     put: (url: string, data?: any) =>
         axios
             .put(`${API_ROOT}${url}`, data)
             .then(responseBody)
-            .catch(handleUnauthorized)
 };
 
 interface IUserResponse {

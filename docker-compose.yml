@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  medium-client:
+    image: medium-client:prod
+    build: .
+    ports:
+      - 80:80

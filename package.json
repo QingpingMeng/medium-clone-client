@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/icons": "^1.0.0-beta.43",
+    "@material-ui/core": "^1.0.0-rc.0",
+    "@material-ui/icons": "^1.0.0-rc.0",
     "axios": "^0.18.0",
     "log4js": "^2.5.3",
-    "material-ui": "^1.0.0-beta.44",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",
     "promise.prototype.finally": "^3.1.0",
@@ -28,6 +28,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "docker:prod": "docker-compose up -d",
+    "docker:debug": "docker-compose up -f docker-compose.debug.yml"
   }
 }

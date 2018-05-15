@@ -1,7 +1,7 @@
-import Button from 'material-ui/Button';
-import { CircularProgress } from 'material-ui/Progress';
-import TextField from 'material-ui/TextField';
-import Typography from 'material-ui/Typography';
+import Button from '@material-ui/core//Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';

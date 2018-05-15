@@ -1,10 +1,10 @@
+import Button from '@material-ui/core//Button';
+import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
-import AppBar from 'material-ui/AppBar';
-import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button/Button';
-import IconButton from 'material-ui/IconButton';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -32,7 +32,7 @@ class Header extends React.Component<RouteComponentProps<{}>, {}> {
 
         return (
             <div className="header-container">
-                <AppBar position="static">
+                <AppBar color="default" position="static">
                     <Toolbar>
                         <IconButton
                             className="heaer-menu-button"

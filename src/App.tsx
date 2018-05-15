@@ -1,18 +1,36 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
+import {
+    Route,
+    RouteComponentProps,
+    Switch,
+    withRouter
+} from 'react-router-dom';
 import Header from './components/Header/Header';
 import Register from './components/Register/Register';
 import { CommonStore } from './stores/commonStore';
 import { UserStore } from './stores/userStore';
 
-import "./App.css";
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import './App.css';
+import Home from './components/Home/Index';
 import Login from './components/Login/Login';
 
 interface InjectedProps extends Partial<RouteComponentProps<any>> {
     commonStore: CommonStore;
     userStore: UserStore;
 }
+
+const theme = createMuiTheme({
+    palette:{
+        primary:{
+            dark: "#0097a7",
+            light: "#bdbdbd",
+            main: "#2196f3"
+        }
+    }
+});
 
 @inject('commonStore', 'userStore')
 @observer
@@ -36,16 +54,19 @@ class App extends React.Component<RouteComponentProps<any>, never> {
     }
 
     public render() {
-        if(this.injectedProps.commonStore.appLoaded){
+        if (this.injectedProps.commonStore.appLoaded) {
             return (
                 <div>
-                    <Header />
-                    <Switch>
-                        <Route path="/register" component={Register} />
-                        <Route path="/login" component={Login} />
-                    </Switch>
+                    <MuiThemeProvider theme={theme}>
+                        <Header />
+                        <Switch>
+                            <Route path="/register" component={Register} />
+                            <Route path="/login" component={Login} />
+                            <Route path="/" exact={true} component={Home} />
+                        </Switch>
+                    </MuiThemeProvider>
                 </div>
-            )
+            );
         }
 
         return <Header />;

@@ -1,4 +1,4 @@
-import Button, {ButtonProps} from "material-ui/Button";
+import Button, {ButtonProps} from "@material-ui/core/Button";
 import * as React from "react";
 import {Link, LinkProps} from "react-router-dom";
 

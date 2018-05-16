@@ -1,0 +1,10 @@
+.tag-container{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 0.7rem;
+}
+
+.tag-chip{
+    margin: 0.1rem;
+}

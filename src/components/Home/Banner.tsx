@@ -4,10 +4,11 @@ import './Banner.css';
 
 interface IBannerProps {
     appName: string;
+    appSlogan: string;
     token?: string;
 }
 
-const Banner: React.SFC<IBannerProps> = ({ appName, token }) => {
+const Banner: React.SFC<IBannerProps> = ({ appName, appSlogan, token }) => {
     return (
         <div className="banner">
             <div className="container">
@@ -25,7 +26,7 @@ const Banner: React.SFC<IBannerProps> = ({ appName, token }) => {
                     variant="display1"
                     align="center"
                 >
-                    A place to share your knowledge.
+                    {appSlogan}
                 </Typography>
             </div>
         </div>

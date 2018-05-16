@@ -110,6 +110,7 @@ interface ISingleArticleResponse {
 
 interface IMultipleArticlesResponse {
     articles: IArticle[];
+    articlesCount: number;
 }
 const Articles = {
     all: (page: number, lim = 10) =>
@@ -137,8 +138,8 @@ const Articles = {
         requests.get(
             `/articles?favorited=${encode(author)}&${limit(lim, page)}`
         ) as Promise<IMultipleArticlesResponse>,
-    feed: () =>
-        requests.get('/articles/feed?limit=10&offset=0') as Promise<
+    feed: (page: number, lim = 10) =>
+        requests.get(`/articles/feed?${limit(lim, page)}`) as Promise<
             IMultipleArticlesResponse
         >,
     get: (slug: string) =>

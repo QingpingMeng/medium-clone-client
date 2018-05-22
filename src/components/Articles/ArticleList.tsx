@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import * as React from 'react';
 import { IArticle } from '../../models/Article.model';
+import ArticlePreview from './ArticlePreview';
 
 interface IArticleListProps {
     loading: boolean;
@@ -27,7 +28,13 @@ const ArticleList: React.SFC<IArticleListProps> = ({
         );
     }
 
-    return <div className="article-preview">A lot articles coming soon!</div>;
+    return (
+        <div>
+            {
+                articles.map(article => <ArticlePreview article={article} key={article.slug} />)
+            }
+        </div>
+    )
 };
 
 export default ArticleList;

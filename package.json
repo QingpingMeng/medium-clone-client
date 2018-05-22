@@ -31,7 +31,7 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "docker:prod": "docker-compose up -d",
-    "docker:debug": "docker-compose up -f docker-compose.debug.yml"
+    "docker:prod": "docker-compose build",
+    "docker:debug": "docker-compose build -f docker-compose.debug.yml"
   }
 }

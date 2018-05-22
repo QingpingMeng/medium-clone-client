@@ -4,7 +4,7 @@ import * as React from 'react';
 import { CommonStore } from '../../stores/commonStore';
 import Banner from './Banner';
 import MainView from './MainView';
-import Tags from './Tags';
+import Sidebar from './Sidebar';
 
 export interface InjectedHomeProps {
     commonStore: CommonStore;
@@ -27,7 +27,7 @@ export default class Home extends React.Component<any, any> {
             tags
         } = this.injectedProps.commonStore;
         return (
-            <Grid container={true} justify="center" spacing={24}>
+            <Grid container={true} justify="center">
                 <Grid item={true} md={12}>
                     <Banner
                         token={token}
@@ -35,9 +35,9 @@ export default class Home extends React.Component<any, any> {
                         appSlogan={appSlogan}
                     />
                 </Grid>
-                <Grid container={true} justify="center" spacing={24}>
+                <Grid container={true} justify="center">
                     <MainView />
-                    <Tags tags={tags} />
+                    <Sidebar tags={tags} />
                 </Grid>
             </Grid>
         );

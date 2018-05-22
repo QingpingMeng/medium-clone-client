@@ -10,4 +10,6 @@ export interface IArticle {
     comments: IComment[];
     tagList: string[];
     author: IUser;
+    createdAt: string;
+    favorited: boolean;
 }

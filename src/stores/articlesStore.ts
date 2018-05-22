@@ -96,6 +96,40 @@ export class ArticlesStore {
 
         return agent.Articles.all(this.page, LIMIT);
     }
+
+    @action
+    public makeFavorite(slug: string) {
+        const article = this.getArticle(slug);
+        if (article && !article.favorited) {
+            article.favorited = true;
+            article.favCount++;
+            return agent.Articles.favorite(slug).catch(
+                action(err => {
+                    article.favorited = false;
+                    article.favCount--;
+                    throw err;
+                })
+            );
+        }
+        return Promise.resolve();
+    }
+
+    @action
+    public unmakeFavorite(slug: string) {
+        const article = this.getArticle(slug);
+        if (article && article.favorited) {
+            article.favorited = false;
+            article.favCount--;
+            return agent.Articles.favorite(slug).catch(
+                action(err => {
+                    article.favorited = true;
+                    article.favCount++;
+                    throw err;
+                })
+            );
+        }
+        return Promise.resolve();
+    }
 }
 
 export default new ArticlesStore();

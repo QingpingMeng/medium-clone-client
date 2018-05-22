@@ -11,9 +11,7 @@ RUN npm install
 
 COPY . /src/app
 
-EXPOSE 3000
-
-CMD [ "npm", "build"]
+RUN npm run build
 
 FROM nginx:alpine
 

@@ -40,7 +40,7 @@ class MainView extends React.Component<RouteComponentProps<{}>> {
             page
         } = this.injectedProps.articlesStore;
         return [
-            <Grid key="tab" item={true} md={6}>
+            <Grid key="tab" style={{marginTop: '1rem', padding:"0 1rem"}}  item={true} md={6}>
                 <Tabs
                     value={tabIndex}
                     indicatorColor="primary"

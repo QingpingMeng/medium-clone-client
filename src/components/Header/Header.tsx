@@ -32,7 +32,7 @@ class Header extends React.Component<RouteComponentProps<{}>, {}> {
 
         return (
             <div className="header-container">
-                <AppBar color="default" position="static">
+                <AppBar position="sticky" color="default">
                     <Toolbar>
                         <IconButton
                             className="heaer-menu-button"

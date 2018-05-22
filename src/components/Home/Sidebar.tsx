@@ -1,11 +1,11 @@
-import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import Grid from '@material-ui/core/Grid/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 
-import './Tags.css';
+import TagChips from '../Shared/TagChips';
+import './Sidebar.css';
 
 interface ITagsProps {
     tags: string[];
@@ -15,7 +15,7 @@ const Tags: React.SFC<ITagsProps> = props => {
     const { tags } = props;
     if (tags) {
         return (
-            <Grid item={true} md={2}>
+            <Grid item={true} style={{marginTop: '1rem', padding: "0 1rem"}}  md={2}>
                 <Paper>
                     <Typography
                         gutterBottom={true}
@@ -27,15 +27,7 @@ const Tags: React.SFC<ITagsProps> = props => {
                         Popular tags
                     </Typography>
                     <div className="tag-container">
-                        {props.tags.map((tag, index) => {
-                            return (
-                                <Chip
-                                    key={index}
-                                    label={tag}
-                                    className="tag-chip"
-                                />
-                            );
-                        })}
+                       <TagChips tags={tags}/>
                     </div>
                 </Paper>
             </Grid>

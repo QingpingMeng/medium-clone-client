@@ -35,7 +35,7 @@ export class ArticlesStore {
 
     @action
     public setPage(page: number) {
-        this.page = page;
+        this.page = page - 1;
     }
 
     @action

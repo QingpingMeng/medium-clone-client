@@ -3,6 +3,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { IArticle } from './models/Article.model';
 import IComment from './models/Comment.model';
 import IUser from './models/User.model';
+import authStore from './stores/authStore';
 import commonStore from './stores/commonStore';
 
 // configure({
@@ -40,8 +41,9 @@ axios.interceptors.response.use(
     (error: AxiosError) => {
         if (error.response) {
             if (error.response.status === 401) {
-                // logout
+                authStore.logout();
             }
+
             return Promise.reject(error.response);
         } else if (error.request) {
             // // logger.error(

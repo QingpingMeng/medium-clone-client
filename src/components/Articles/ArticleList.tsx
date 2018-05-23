@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import * as React from 'react';
 import { IArticle } from '../../models/Article.model';
+import Pagination from '../Shared/Pagination'
 import ArticlePreview from './ArticlePreview';
 
 interface IArticleListProps {
@@ -30,11 +31,17 @@ const ArticleList: React.SFC<IArticleListProps> = ({
 
     return (
         <div>
-            {
-                articles.map(article => <ArticlePreview article={article} key={article.slug} />)
-            }
+            {articles.map(article => (
+                <ArticlePreview article={article} key={article.slug} />
+            ))}
+            <Pagination
+                total={totalPagesCount}
+                display={8}
+                current={currentPage}
+                onChange={onSetPage}
+            />
         </div>
-    )
+    );
 };
 
 export default ArticleList;

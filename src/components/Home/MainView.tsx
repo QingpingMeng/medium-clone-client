@@ -29,6 +29,18 @@ class MainView extends React.Component<RouteComponentProps<{}>> {
         this.injectedProps.articlesStore.loadArticles();
     }
 
+    public componentDidUpdate(preivousProps: InjectedMainViewProps) {
+        const { tab } = qsParse(this.props.location.search);
+        const { tab: previousTab } = qsParse(preivousProps.location.search);
+        const { tag } = qsParse(this.props.location.search);
+        const { tag: previousTag } = qsParse(preivousProps.location.search);
+
+        if (tab !== previousTab || tag !== previousTag) {
+            this.injectedProps.articlesStore.setPredicate(this.getPredicate());
+            this.injectedProps.articlesStore.loadArticles();
+        }
+    }
+
     public render() {
         const { currentUser } = this.injectedProps.userStore;
         const { tab } = qsParse(this.props.location.search);
@@ -40,7 +52,12 @@ class MainView extends React.Component<RouteComponentProps<{}>> {
             page
         } = this.injectedProps.articlesStore;
         return [
-            <Grid key="tab" style={{marginTop: '1rem', padding:"0 1rem"}}  item={true} md={6}>
+            <Grid
+                key="tab"
+                style={{ marginTop: '1rem', padding: '0 1rem' }}
+                item={true}
+                md={6}
+            >
                 <Tabs
                     value={tabIndex}
                     indicatorColor="primary"
@@ -50,7 +67,7 @@ class MainView extends React.Component<RouteComponentProps<{}>> {
                 >
                     <Tab label="Global Feed" />
                     {currentUser && <Tab label="Your Feed" />}
-                    {tab === 'tag' && <Tab label={tab} />}
+                    {tab === 'tag' && <Tab label={`#${qsParse(this.props.location.search).tag}`} />}
                 </Tabs>
                 <ArticleList
                     articles={articles}
@@ -65,14 +82,15 @@ class MainView extends React.Component<RouteComponentProps<{}>> {
 
     private handleTabChange = (event: React.ChangeEvent<{}>, value: any) => {
         this.props.history.push({
+            pathname: '/',
             search: value === 1 ? '?tab=feed' : '?tab=all'
         });
     };
 
     private handleSetPage = (page: number) => {
-      this.injectedProps.articlesStore.setPage(page);
-      this.injectedProps.articlesStore.loadArticles();
-    }
+        this.injectedProps.articlesStore.setPage(page);
+        this.injectedProps.articlesStore.loadArticles();
+    };
 
     private getPredicate() {
         const { tab } = qsParse(this.props.location.search);

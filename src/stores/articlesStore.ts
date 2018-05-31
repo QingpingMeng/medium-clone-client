@@ -14,6 +14,7 @@ export interface IPredicate {
 
 export class ArticlesStore {
     @observable public isLoading = false;
+    @observable public isLoadingDetail = false;
     @observable public page = 0;
     @observable public totalPagesCount = 0;
     @observable public articlesRegistry = observable.map<string, IArticle>();
@@ -31,6 +32,28 @@ export class ArticlesStore {
 
     public getArticle(slug: string) {
         return this.articlesRegistry.get(slug);
+    }
+
+    @action
+    public getArticleAsync(slug: string) {
+        this.isLoadingDetail = true;
+        if (this.articlesRegistry.get(slug)) {
+            this.isLoadingDetail = false;
+            return Promise.resolve(this.articlesRegistry.get(slug));
+        }
+        this.isLoadingDetail = true;
+        return this.loadArticles()
+            .then(
+                action(() => {
+                    this.isLoadingDetail = false;
+                    return this.articlesRegistry.get(slug);
+                })
+            )
+            .finally(
+                action(() => {
+                    this.isLoadingDetail = false;
+                })
+            );
     }
 
     @action
@@ -129,6 +152,17 @@ export class ArticlesStore {
             );
         }
         return Promise.resolve();
+    }
+
+    @action
+    public deleteArticle(slug: string) {
+        this.articlesRegistry.delete(slug);
+        return agent.Articles.del(slug).catch(
+            action(err => {
+                this.loadArticles();
+                throw err;
+            })
+        );
     }
 }
 

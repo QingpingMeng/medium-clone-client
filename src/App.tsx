@@ -14,6 +14,7 @@ import { UserStore } from './stores/userStore';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import './App.css';
+import ArticleDetail from './components/Articles/ArticleDetail';
 import Home from './components/Home/Index';
 import Login from './components/Login/Login';
 
@@ -63,6 +64,7 @@ class App extends React.Component<RouteComponentProps<any>, never> {
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
                             <Route path="/" exact={true} component={Home} />
+                            <Route path="/articles/:id" exact={true} component={ArticleDetail} />
                         </Switch>
                     </MuiThemeProvider>
                 </div>

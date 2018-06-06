@@ -9,12 +9,16 @@ import registerServiceWorker from './registerServiceWorker';
 import articlesStore from './stores/articlesStore';
 import authStore from './stores/authStore'
 import commonStore from './stores/commonStore';
+import editorStore from './stores/editorStore';
+import profileStore from './stores/profileStore';
 import userStore from './stores/userStore';
 
 const stores ={ 
   articlesStore,
   authStore,
   commonStore,
+  editorStore,
+  profileStore,
   userStore
 };
 

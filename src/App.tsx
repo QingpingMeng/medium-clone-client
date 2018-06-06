@@ -15,6 +15,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import './App.css';
 import ArticleDetail from './components/Articles/ArticleDetail';
+import EditArticle from './components/Articles/EditArticle';
 import Home from './components/Home/Index';
 import Login from './components/Login/Login';
 
@@ -24,11 +25,11 @@ interface InjectedProps extends Partial<RouteComponentProps<any>> {
 }
 
 const theme = createMuiTheme({
-    palette:{
-        primary:{
-            dark: "#0097a7",
-            light: "#bdbdbd",
-            main: "#2196f3"
+    palette: {
+        primary: {
+            dark: '#0097a7',
+            light: '#bdbdbd',
+            main: '#2196f3'
         }
     }
 });
@@ -64,7 +65,16 @@ class App extends React.Component<RouteComponentProps<any>, never> {
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
                             <Route path="/" exact={true} component={Home} />
-                            <Route path="/articles/:id" exact={true} component={ArticleDetail} />
+                            <Route
+                                path="/articles/:id"
+                                exact={true}
+                                component={ArticleDetail}
+                            />
+                            <Route
+                                path="/editor/:slug?"
+                                exact={true}
+                                component={EditArticle}
+                            />
                         </Switch>
                     </MuiThemeProvider>
                 </div>

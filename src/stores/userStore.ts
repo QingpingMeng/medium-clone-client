@@ -1,6 +1,7 @@
 import { action, observable } from 'mobx';
 import agent from '../agent';
 import IUser from '../models/User.model';
+import profileStore from './profileStore';
 
 export class UserStore {
 
@@ -12,7 +13,7 @@ export class UserStore {
   @action public pullUser() {
     this.loadingUser = true;
     return agent.Auth.current()
-      .then(action(({ user }) => { this.currentUser = user; }))
+      .then(action(({ user }) => { this.currentUser = user; profileStore.loadMyProfile(user.username)}))
       .finally(action(() => { this.loadingUser = false; }))
   }
 

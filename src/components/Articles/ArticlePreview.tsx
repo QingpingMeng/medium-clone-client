@@ -36,19 +36,19 @@ class ArticlePreview extends React.Component<IArticlePreviewProps, any> {
             <Card raised={true} style={{ margin: '1rem 0' }}>
                 <CardHeader
                     avatar={
-                        article.author.image ? (
+                        article.author && article.author.image ? (
                             <Avatar
                                 aria-label="user"
                                 src={article.author.image}
                             />
                         ) : (
                             <Avatar aria-label="user">
-                                {article.author.username[0]}
+                                {article.author && article.author.username[0]}
                             </Avatar>
                         )
                     }
-                    title={article.author.username}
-                    subheader={new Date(article.createdAt).toDateString()}
+                    title={article.author && article.author.username}
+                    subheader={article.createdAt && new Date(article.createdAt).toDateString()}
                     action={
                         <IconButton onClick={this.toggleFavorite}>
                             <FavoritetIcon

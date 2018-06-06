@@ -164,6 +164,15 @@ export class ArticlesStore {
             })
         );
     }
+
+    @action
+    public createArticle(articleToCreate: IArticle){
+        return agent.Articles.create(articleToCreate)
+        .then(({article}) => {
+            this.articlesRegistry.set(article.slug, article);
+            return article;
+        })
+    }
 }
 
 export default new ArticlesStore();

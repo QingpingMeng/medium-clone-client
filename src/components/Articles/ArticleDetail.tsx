@@ -1,11 +1,11 @@
 import { CircularProgress, Grid, Typography } from '@material-ui/core';
-import * as marked from 'marked';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { ArticlesStore } from '../../stores/articlesStore';
 import { CommonStore } from '../../stores/commonStore';
 import { UserStore } from '../../stores/userStore';
+import MediumEdtorView from '../Shared/MediumEdtorView';
 import TagChips from '../Shared/TagChips';
 import ArticleDetailMeta from './ArticleDetailMeta';
 import NoArticleFound from './NoArticleFound';
@@ -49,9 +49,8 @@ export default class ArticleDetail extends React.Component<
             return <NoArticleFound {...this.props} />;
         }
 
-        const markup = { __html: marked(article.body, { sanitize: true }) };
         const canModify = !!(
-            currentUser && currentUser.username === article.author.username
+            currentUser && article.author && currentUser.username === article.author.username
         );
 
         return (
@@ -80,13 +79,18 @@ export default class ArticleDetail extends React.Component<
                         >
                             {article.title}
                         </Typography>
+                        <Typography
+                            color="textSecondary"
+                            component="b"
+                            variant="subheading"
+                        >
+                            {article.description}
+                        </Typography>
                     </Grid>
                 </Grid>
                 <Grid container={true} justify="center">
                     <Grid item={true} xs={8} md={4}>
-                        <Typography variant="body2">
-                            <div dangerouslySetInnerHTML={markup} />
-                        </Typography>
+                        <MediumEdtorView content={article.body} readonly={true} />
                     </Grid>
                 </Grid>
                 <Grid container={true} justify="center">

@@ -44,11 +44,11 @@ class ArticleDetailMeta extends React.Component<
                         <Avatar
                             sizes="large"
                             aria-label="Recipe"
-                            src={article.author.image}
+                            src={article.author ? article.author.image : ''}
                         />
                     }
-                    title={article.author.username}
-                    subheader={new Date(article.createdAt).toDateString()}
+                    title={article.author && article.author.username}
+                    subheader={article.createdAt && new Date(article.createdAt).toDateString()}
                     action={
                         this.props.canModify ? (
                             <div>

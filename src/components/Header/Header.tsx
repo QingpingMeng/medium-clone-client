@@ -79,7 +79,11 @@ class Header extends React.Component<RouteComponentProps<{}>, {}> {
                             >
                                 Home
                             </Button>,
-                            <Button key="newPost" color="inherit">
+                            <Button
+                                onClick={this.linkTo('/editor/')}
+                                key="newPost"
+                                color="inherit"
+                            >
                                 New Post
                             </Button>,
                             <Button key="settings" color="inherit">

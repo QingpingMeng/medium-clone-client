@@ -92,6 +92,26 @@ export class ArticlesStore {
     }
 
     @action
+    public loadArticle(slug: string, { acceptCached = false } = {}) {
+        if (acceptCached) {
+            const article = this.getArticle(slug);
+            if (article) {
+                return Promise.resolve(article);
+            }
+        }
+
+        this.isLoading = true;
+        return agent.Articles.get(slug)
+            .then(
+                action(({ article }) => {
+                    this.articlesRegistry.set(article.slug, article);
+                    return article;
+                })
+            )
+            .finally(action(() => (this.isLoading = false)));
+    }
+
+    @action
     public $req() {
         if (this.predicate.myFeed) {
             return agent.Articles.feed(this.page, LIMIT);
@@ -166,12 +186,11 @@ export class ArticlesStore {
     }
 
     @action
-    public createArticle(articleToCreate: IArticle){
-        return agent.Articles.create(articleToCreate)
-        .then(({article}) => {
+    public createArticle(articleToCreate: IArticle) {
+        return agent.Articles.create(articleToCreate).then(({ article }) => {
             this.articlesRegistry.set(article.slug, article);
             return article;
-        })
+        });
     }
 }
 

@@ -3,13 +3,11 @@ import Tabs from '@material-ui/core/Tabs/Tabs';
 
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
-import * as React from 'react';
-import ReactMde, { ReactMdeTypes } from 'react-mde';
-import MediumEditorView from './MediumEdtorView';
-
-import * as marked from 'marked';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 import './CompoundEditor.css';
+import MDEditor from './MDEditor';
+import MediumEditorView from './MediumEdtorView';
 export interface IDraftEditorProps {
     signleLine?: boolean;
     placeholder?: string;
@@ -22,7 +20,6 @@ export interface IDraftEditorProps {
 
 interface IDraftEditorState {
     editorMode: 'medium' | 'md';
-    mdeState: ReactMdeTypes.MdeState;
 }
 
 @observer
@@ -34,19 +31,8 @@ export default class DraftEditor extends React.Component<
         super(props);
 
         this.state = {
-            editorMode: 'medium',
-            mdeState: {
-                markdown: this.props.markdownBody
-            }
+            editorMode: 'medium'
         };
-    }
-
-    public componentWillReceiveProps(newProps: IDraftEditorProps) {
-        this.setState({
-            mdeState: Object.assign({}, this.state.mdeState, {
-                markdown: newProps.markdownBody
-            })
-        });
     }
 
     public render() {
@@ -61,17 +47,15 @@ export default class DraftEditor extends React.Component<
                     <Tab value="md" label="Markdown view" />
                 </Tabs>
 
-                {this.state.editorMode === 'medium' && <MediumEditorView onChange={this.props.onChange}/>}
+                {this.state.editorMode === 'medium' && (
+                    <MediumEditorView onChange={this.props.onChange} />
+                )}
 
                 {this.state.editorMode === 'md' && (
-                    <div className="md-editor">
-                        <ReactMde
-                            commands={[]}
-                            onChange={this.onMarkdownChanged}
-                            editorState={this.state.mdeState}
-                            layout="noPreview"
-                        />
-                    </div>
+                    <MDEditor
+                        initValue={this.props.markdownBody}
+                        onChange={this.props.onChange}
+                    />
                 )}
             </div>
         );
@@ -81,12 +65,5 @@ export default class DraftEditor extends React.Component<
         this.setState({
             editorMode: value
         });
-    };
-
-    private onMarkdownChanged = (value: ReactMdeTypes.MdeState) => {
-        this.setState({ mdeState: value });
-        if (this.props.onChange && value.markdown) {
-            this.props.onChange(marked(value.markdown));
-        }
     };
 }

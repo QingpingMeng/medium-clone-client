@@ -28,7 +28,6 @@ interface IInjectedEditArticleProps extends IEditArticleProps {
 
 interface IEditArticleState {
     tagInput: string;
-    editViewMode: 0 | 1;
 }
 
 @inject('articlesStore', 'userStore', 'editorStore')
@@ -37,8 +36,6 @@ export default class EditArticle extends React.Component<
     IEditArticleProps,
     IEditArticleState
 > {
-    // private isNewArticle = true;
-
     get injectedProps() {
         return this.props as IInjectedEditArticleProps;
     }
@@ -46,13 +43,28 @@ export default class EditArticle extends React.Component<
     constructor(props: IEditArticleProps) {
         super(props);
 
-        // if (this.props.match.params.slug) {
-        //     this.isNewArticle = false;
-        // }
         this.state = {
-            editViewMode: 0,
             tagInput: ''
         };
+    }
+
+    public componentWillMount() {
+        this.injectedProps.editorStore.setArticleSlug(
+            this.props.match.params.slug
+        );
+    }
+
+    public componentDidMount() {
+        this.injectedProps.editorStore.loadInitialData();
+    }
+
+    public componentDidUpdate(prevProps: IEditArticleProps) {
+        if (this.props.match.params.slug !== prevProps.match.params.slug) {
+            this.injectedProps.editorStore.setArticleSlug(
+                this.props.match.params.slug
+            );
+            this.injectedProps.editorStore.loadInitialData();
+        }
     }
 
     public render() {
@@ -61,7 +73,13 @@ export default class EditArticle extends React.Component<
             return undefined;
         }
 
-        const { title, description, tagList, markdownBody, inProgress } = this.injectedProps.editorStore;
+        const {
+            title,
+            description,
+            tagList,
+            markdownBody,
+            inProgress
+        } = this.injectedProps.editorStore;
         return (
             <form onSubmit={this.handleSubmitForm}>
                 <Grid container={true} justify="center">
@@ -120,8 +138,13 @@ export default class EditArticle extends React.Component<
                             margin="normal"
                         />
 
-                        <Button color="primary" type="submit" variant="raised" disabled={inProgress}>
-                        {inProgress && (
+                        <Button
+                            color="primary"
+                            type="submit"
+                            variant="raised"
+                            disabled={inProgress}
+                        >
+                            {inProgress && (
                                 <CircularProgress size={20} color="secondary" />
                             )}Publish
                         </Button>
@@ -146,7 +169,7 @@ export default class EditArticle extends React.Component<
     private handleBodyChange = (content: string) => {
         // tslint:disable-next-line:no-console
         console.log('content:', content);
-        if(!content){
+        if (!content) {
             return;
         }
         this.injectedProps.editorStore.setBody(marked(content));
@@ -190,12 +213,12 @@ export default class EditArticle extends React.Component<
 
     private handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(this.state.tagInput){
+        if (this.state.tagInput) {
             const { editorStore } = this.injectedProps;
-                editorStore.addTag(this.state.tagInput);
-                this.setState({
-                    tagInput: ''
-                });
+            editorStore.addTag(this.state.tagInput);
+            this.setState({
+                tagInput: ''
+            });
         }
         this.injectedProps.editorStore
             .submit()

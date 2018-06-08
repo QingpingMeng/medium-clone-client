@@ -71,6 +71,11 @@ class App extends React.Component<RouteComponentProps<any>, never> {
                                 component={ArticleDetail}
                             />
                             <Route
+                                path="/editor/:slug"
+                                exact={true}
+                                component={EditArticle}
+                            />
+                            <Route
                                 path="/editor/:slug?"
                                 exact={true}
                                 component={EditArticle}

@@ -4,10 +4,11 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import * as React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { IArticle } from '../../models/Article.model';
 import ConfirmDialog from '../Shared/ConfirmDialog';
 
-interface IArticleDetailMetaProps {
+interface IArticleDetailMetaProps extends RouteComponentProps<{}> {
     article: IArticle;
     canModify: boolean;
     handleDeleteArticle: (slug: string) => void;
@@ -55,6 +56,7 @@ class ArticleDetailMeta extends React.Component<
                                 <IconButton
                                     title="Edit"
                                     aria-label="Edit article"
+                                    onClick={this.handleEditArticle}
                                 >
                                     <EditIcon />
                                 </IconButton>
@@ -87,9 +89,13 @@ class ArticleDetailMeta extends React.Component<
         });
     };
 
+    private handleEditArticle = (e: any) => {
+            this.props.history.push(`/editor/${this.props.article.slug}`)
+    }
+
     private onConfirmDelete = () => {
         this.props.handleDeleteArticle(this.props.article.slug);
     };
 }
 
-export default ArticleDetailMeta;
+export default withRouter(ArticleDetailMeta);

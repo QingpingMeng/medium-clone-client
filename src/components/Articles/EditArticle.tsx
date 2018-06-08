@@ -74,12 +74,20 @@ export default class EditArticle extends React.Component<
         }
 
         const {
+            isLoading: isloadingArticle
+        } = this.injectedProps.articlesStore;
+        if (isloadingArticle) {
+            return <CircularProgress size={20} color="secondary" />;
+        }
+
+        const {
             title,
             description,
             tagList,
             markdownBody,
             inProgress
         } = this.injectedProps.editorStore;
+
         return (
             <form onSubmit={this.handleSubmitForm}>
                 <Grid container={true} justify="center">
@@ -123,7 +131,6 @@ export default class EditArticle extends React.Component<
                             markdownBody={markdownBody}
                             placeholder="Start your story here..."
                         />
-
                         <TagChips
                             tags={tagList}
                             onDelete={this.handleDeleteTag}

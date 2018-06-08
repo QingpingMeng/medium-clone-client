@@ -48,7 +48,7 @@ export default class DraftEditor extends React.Component<
                 </Tabs>
 
                 {this.state.editorMode === 'medium' && (
-                    <MediumEditorView onChange={this.props.onChange} />
+                    <MediumEditorView placeholder={this.props.placeholder} onChange={this.props.onChange} />
                 )}
 
                 {this.state.editorMode === 'md' && (

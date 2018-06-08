@@ -27,6 +27,14 @@ export default class MediumEdtorView extends React.Component<
         return this.props as IInjectedMediumEdtorProps;
     }
 
+    public componentWillReceiveProps(newProps: IMediumEdtorProps){
+        // tslint:disable-next-line:no-console
+        const injectedNewProps = newProps as IInjectedMediumEdtorProps;
+        if(this.editor && injectedNewProps.editorStore.body !== this.editor.getContent()){
+            this.editor.setContent(injectedNewProps.editorStore.body)
+        }
+    }
+
     public componentDidMount() {
         if (this.mediumEditorElement) {
             const options: MediumEditor.CoreOptions = {

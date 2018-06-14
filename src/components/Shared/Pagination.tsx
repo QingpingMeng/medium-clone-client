@@ -120,7 +120,7 @@ export default class Pagination extends React.Component<
     }
 
     public render() {
-        const array = [];
+        const array:number[] = [];
         for (let i = this.state.start; i <= this.state.end; i += 1) {
             array.push(i);
         }

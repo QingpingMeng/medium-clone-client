@@ -1,0 +1,12 @@
+.profile-user-info-container {
+    padding: 2rem 1rem;
+    text-align: center;
+    background: #f3f3f3;
+}
+
+.profile-user-info-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+}

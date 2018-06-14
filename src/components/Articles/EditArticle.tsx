@@ -10,6 +10,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { ArticlesStore } from '../../stores/articlesStore';
 import { EditorStore } from '../../stores/editorStore';
+import { ProfileStore } from '../../stores/profileStore';
 import { UserStore } from '../../stores/userStore';
 import CompoundEditor from '../Shared/CompoundEditor';
 import TagChips from '../Shared/TagChips';
@@ -24,13 +25,14 @@ interface IInjectedEditArticleProps extends IEditArticleProps {
     articlesStore: ArticlesStore;
     userStore: UserStore;
     editorStore: EditorStore;
+    profileStore: ProfileStore;
 }
 
 interface IEditArticleState {
     tagInput: string;
 }
 
-@inject('articlesStore', 'userStore', 'editorStore')
+@inject('articlesStore', 'userStore', 'editorStore', 'profileStore')
 @observer
 export default class EditArticle extends React.Component<
     IEditArticleProps,
@@ -69,6 +71,7 @@ export default class EditArticle extends React.Component<
 
     public render() {
         const { currentUser } = this.injectedProps.userStore;
+        const { myProfile } = this.injectedProps.profileStore;
         if (!currentUser) {
             return undefined;
         }
@@ -102,7 +105,7 @@ export default class EditArticle extends React.Component<
                                 <Avatar
                                     sizes="large"
                                     aria-label="Recipe"
-                                    src={currentUser.image}
+                                    src={myProfile.image}
                                 />
                             }
                             title={currentUser.username}

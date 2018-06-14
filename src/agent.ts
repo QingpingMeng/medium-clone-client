@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 // import { configure, getLogger } from 'log4js';
 import { IArticle } from './models/Article.model';
 import IComment from './models/Comment.model';
-import IUser from './models/User.model';
+import { IUser } from './models/User.model';
 import authStore from './stores/authStore';
 import commonStore from './stores/commonStore';
 
@@ -61,22 +61,12 @@ axios.interceptors.response.use(
 );
 
 const requests = {
-    del: (url: string) =>
-        axios
-            .delete(`${API_ROOT}${url}`)
-            .then(responseBody),
-    get: (url: string) =>
-        axios
-            .get(`${API_ROOT}${url}`)
-            .then(responseBody),
+    del: (url: string) => axios.delete(`${API_ROOT}${url}`).then(responseBody),
+    get: (url: string) => axios.get(`${API_ROOT}${url}`).then(responseBody),
     post: (url: string, data?: any) =>
-        axios
-            .post(`${API_ROOT}${url}`, data)
-            .then(responseBody),
+        axios.post(`${API_ROOT}${url}`, data).then(responseBody),
     put: (url: string, data?: any) =>
-        axios
-            .put(`${API_ROOT}${url}`, data)
-            .then(responseBody)
+        axios.put(`${API_ROOT}${url}`, data).then(responseBody)
 };
 
 interface IUserResponse {

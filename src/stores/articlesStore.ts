@@ -145,11 +145,11 @@ export class ArticlesStore {
         const article = this.getArticle(slug);
         if (article && !article.favorited) {
             article.favorited = true;
-            article.favCount++;
+            article.favoritesCount++;
             return agent.Articles.favorite(slug).catch(
                 action(err => {
                     article.favorited = false;
-                    article.favCount--;
+                    article.favoritesCount--;
                     throw err;
                 })
             );
@@ -162,11 +162,11 @@ export class ArticlesStore {
         const article = this.getArticle(slug);
         if (article && article.favorited) {
             article.favorited = false;
-            article.favCount--;
+            article.favoritesCount--;
             return agent.Articles.favorite(slug).catch(
                 action(err => {
                     article.favorited = true;
-                    article.favCount++;
+                    article.favoritesCount++;
                     throw err;
                 })
             );

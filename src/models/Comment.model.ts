@@ -1,5 +1,5 @@
-import { IArticle } from "./Article.model";
-import IUser from "./User.model";
+import { IArticle } from './Article.model';
+import { IUser } from './User.model';
 
 export default interface IComment {
     body: string;

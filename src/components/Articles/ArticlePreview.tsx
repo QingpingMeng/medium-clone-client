@@ -50,10 +50,11 @@ class ArticlePreview extends React.Component<IArticlePreviewProps, any> {
                     title={article.author && article.author.username}
                     subheader={article.createdAt && new Date(article.createdAt).toDateString()}
                     action={
-                        <IconButton onClick={this.toggleFavorite}>
+                        <IconButton style={{fontSize: "1rem"}} onClick={this.toggleFavorite}>
                             <FavoritetIcon
                                 color={isFavorite ? 'secondary' : 'default'}
                             />
+                            {article.favoritesCount || 0}
                         </IconButton>
                     }
                 />

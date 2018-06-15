@@ -19,6 +19,8 @@ import EditArticle from './components/Articles/EditArticle';
 import Home from './components/Home/Index';
 import Login from './components/Login/Login';
 import Profile from './components/Profile/Profile';
+import SettingsForm from './components/Profile/Settings';
+import PrivateRoute from './components/Shared/PrivateRoute';
 
 interface InjectedProps extends Partial<RouteComponentProps<any>> {
     commonStore: CommonStore;
@@ -77,6 +79,7 @@ class App extends React.Component<RouteComponentProps<any>, never> {
                                 component={EditArticle}
                             />
                             <Route path="/@:username" component={Profile} />
+                            <PrivateRoute path="/settings" component={SettingsForm} />
                             <Route
                                 path="/@:username/favorites"
                                 component={Profile}

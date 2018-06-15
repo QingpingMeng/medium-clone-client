@@ -12,24 +12,39 @@ import { withRouter } from 'react-router-dom';
 import { CommonStore } from '../../stores/commonStore';
 import { UserStore } from '../../stores/userStore';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { AuthStore } from '../../stores/authStore';
 import './Header.css';
 
 interface InjectedHeaderProps extends RouteComponentProps<{}> {
     commonStore: CommonStore;
     userStore: UserStore;
+    authStore: AuthStore;
 }
 
-@inject('userStore', 'commonStore')
+interface IHeaderState {
+    menuAnchorEl: HTMLElement | undefined;
+}
+
+@inject('userStore', 'commonStore', 'authStore')
 @observer
-class Header extends React.Component<RouteComponentProps<{}>, {}> {
+class Header extends React.Component<RouteComponentProps<{}>, IHeaderState> {
     get injectedProps() {
         return this.props as InjectedHeaderProps;
     }
 
+    constructor(props: InjectedHeaderProps) {
+        super(props);
+
+        this.state = {
+            menuAnchorEl: undefined
+        };
+    }
     public render() {
         const isLoggedIn = !!this.injectedProps.userStore.currentUser;
         const { currentUser } = this.injectedProps.userStore;
-
+        const { menuAnchorEl } = this.state;
         return (
             <div className="header-container">
                 <AppBar position="sticky" color="default">
@@ -86,18 +101,35 @@ class Header extends React.Component<RouteComponentProps<{}>, {}> {
                             >
                                 New Post
                             </Button>,
-                            <Button key="settings" color="inherit">
-                                Settings
-                            </Button>,
-                            <IconButton key="avatar">
+                            <IconButton
+                                key="avatar"
+                                onClick={this.handleMenuClick}
+                            >
                                 {currentUser && (
                                     <Avatar
                                         alt="Remy Sharp"
-                                        src={currentUser.image}
+                                        src={
+                                            currentUser.image ||
+                                            'https://static.productionready.io/images/smiley-cyrus.jpg'
+                                        }
                                         className="header-avatar"
                                     />
                                 )}
-                            </IconButton>
+                            </IconButton>,
+                            <Menu
+                                key="menu"
+                                id="simple-menu"
+                                anchorEl={menuAnchorEl}
+                                open={Boolean(menuAnchorEl)}
+                                onClose={this.handleMenuClose()}
+                            >
+                                <MenuItem onClick={this.handleMenuClose('/settings/')}>
+                                    Settings
+                                </MenuItem>
+                                <MenuItem onClick={this.handleLogout}>
+                                    Logout
+                                </MenuItem>
+                            </Menu>
                         ]}
                     </Toolbar>
                 </AppBar>
@@ -110,8 +142,27 @@ class Header extends React.Component<RouteComponentProps<{}>, {}> {
             this.props.history.push(path);
         };
     };
+
+    private handleMenuClose = (path?: string) => _ => {
+        this.setState({
+            menuAnchorEl: undefined
+        });
+
+        if(path){
+            this.props.history.push(path);
+        }
+    };
+
+    private handleMenuClick = (e: React.MouseEvent<HTMLElement>) => {
+        this.setState({
+            menuAnchorEl: e.currentTarget
+        });
+    };
+
+    private handleLogout = _ => {
+        this.injectedProps.authStore.logout();
+        this.props.history.push('/');
+    };
 }
 
 export default withRouter(Header);
-
-// <LoggedInView currentUser={this.props.userStore.currentUser} />

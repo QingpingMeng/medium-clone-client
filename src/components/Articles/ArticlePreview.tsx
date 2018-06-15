@@ -47,7 +47,7 @@ class ArticlePreview extends React.Component<IArticlePreviewProps, any> {
                             </Avatar>
                         )
                     }
-                    title={article.author && article.author.username}
+                    title={article.author && <span onClick={this.gotoProfile}>{article.author.username}</span>}
                     subheader={article.createdAt && new Date(article.createdAt).toDateString()}
                     action={
                         <IconButton style={{fontSize: "1rem"}} onClick={this.toggleFavorite}>
@@ -58,7 +58,7 @@ class ArticlePreview extends React.Component<IArticlePreviewProps, any> {
                         </IconButton>
                     }
                 />
-                <CardContent>
+                <CardContent onClick={this.readMore}>
                     <Typography
                         paragraph={true}
                         className="article-preview-title"
@@ -117,6 +117,11 @@ class ArticlePreview extends React.Component<IArticlePreviewProps, any> {
     private readMore = (e: any) => {
         this.props.history.push(`/articles/${this.injectedProps.article.slug}`);
     };
+
+    private gotoProfile = _ => {
+        const { article } = this.injectedProps;
+        this.props.history.push(`/@${article.author && article.author.username}`)
+    }
 }
 
 export default withRouter(ArticlePreview);

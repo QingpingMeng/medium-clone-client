@@ -2,6 +2,7 @@ import { Button, CircularProgress, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tab from '@material-ui/core/Tab/Tab';
 import Tabs from '@material-ui/core/Tabs/Tabs';
+import ErrorIcon from '@material-ui/icons/Error';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { ArticlesStore } from '../../stores/articlesStore';
 import { ProfileStore } from '../../stores/profileStore';
 import { UserStore } from '../../stores/userStore';
 import ArticleList from '../Articles/ArticleList';
+import CenterPage from '../Shared/CenterPaper';
 
 import './Profile.css';
 
@@ -60,6 +62,23 @@ class Profile extends React.Component<IProfileProps, any> {
             return <CircularProgress size={20} />;
         }
 
+        if (!profile) {
+            return (
+                <div>
+                    <CenterPage>
+                        <Typography
+                            paragraph={true}
+                            align="center"
+                            color="error"
+                            variant="display1"
+                        >
+                            <ErrorIcon style={{ fontSize: 30 }} /> No profile found.
+                        </Typography>
+                    </CenterPage>
+                </div>
+            );
+        }
+
         const { currentUser } = userStore;
 
         const isUser = currentUser && profile.username === currentUser.username;
@@ -90,10 +109,11 @@ class Profile extends React.Component<IProfileProps, any> {
                                 size="small"
                                 onClick={this.handleFollowChange}
                             >
-                                + {!profile.following ? 'Follow' : 'Unfollow'} {profile.username}
+                                + {!profile.following ? 'Follow' : 'Unfollow'}{' '}
+                                {profile.username}
                             </Button>
                         )}
-                          {isUser && (
+                        {isUser && (
                             <Button
                                 style={{ float: 'right', fontSize: '0.6rem' }}
                                 variant="outlined"
@@ -164,17 +184,16 @@ class Profile extends React.Component<IProfileProps, any> {
         }
     };
 
-    private handleFollowChange =  (event: React.ChangeEvent<{}>)=>{
+    private handleFollowChange = (event: React.ChangeEvent<{}>) => {
         const { profile } = this.injectedProps.profileStore;
-        if(profile){
-            if(profile.following){
+        if (profile) {
+            if (profile.following) {
                 this.injectedProps.profileStore.unfollow();
-            }
-            else{
+            } else {
                 this.injectedProps.profileStore.follow();
             }
         }
-    }
+    };
 }
 
 export default withRouter(Profile);

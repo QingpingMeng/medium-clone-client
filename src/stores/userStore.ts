@@ -35,6 +35,10 @@ export class UserStore {
                     this.currentUser = user;
                 })
             )
+            .catch(action((err: any) => {
+                this.updatingUserErrors = err && err.data && err.data.errors;
+                throw err;
+            }))
             .finally(
                 action(() => {
                     this.updatingUser = false;

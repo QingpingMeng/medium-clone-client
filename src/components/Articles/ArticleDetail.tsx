@@ -5,7 +5,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { ArticlesStore } from '../../stores/articlesStore';
 import { CommonStore } from '../../stores/commonStore';
 import { UserStore } from '../../stores/userStore';
-import MediumEdtorView from '../Shared/MediumEdtorView';
 import TagChips from '../Shared/TagChips';
 import ArticleDetailMeta from './ArticleDetailMeta';
 import NoArticleFound from './NoArticleFound';
@@ -50,7 +49,9 @@ export default class ArticleDetail extends React.Component<
         }
 
         const canModify = !!(
-            currentUser && article.author && currentUser.username === article.author.username
+            currentUser &&
+            article.author &&
+            currentUser.username === article.author.username
         );
 
         return (
@@ -90,12 +91,14 @@ export default class ArticleDetail extends React.Component<
                 </Grid>
                 <Grid container={true} justify="center">
                     <Grid item={true} xs={8} md={4}>
-                        <MediumEdtorView content={article.body} readonly={true} />
+                        <div
+                            dangerouslySetInnerHTML={{ __html: article.body }}
+                        />
                     </Grid>
                 </Grid>
                 <Grid container={true} justify="center">
                     <Grid item={true} xs={8} md={4}>
-                       <TagChips tags={article.tagList}/>
+                        <TagChips tags={article.tagList} />
                     </Grid>
                 </Grid>
             </Grid>

@@ -1,3 +1,8 @@
+import { EditorState } from 'draft-js';
+import { convertToRaw } from 'draft-js';
+import { createEditorState } from 'medium-draft';
+import mediumDraftExporter from 'medium-draft/lib/exporter';
+import mediumDraftImporter from 'medium-draft/lib/importer';
 import { action, computed, observable } from 'mobx';
 import * as Turndown from 'turndown';
 import { emptyArticle, IArticle } from '../models/Article.model';
@@ -10,6 +15,7 @@ export class EditorStore {
     @observable public body = '';
     @observable public inProgress = false;
     @observable public errors = undefined;
+    @observable public editorState = EditorState.createEmpty();
     @observable public tagList: string[] = [];
     @observable public articleSlug: string | undefined = undefined;
     private turndownService = new Turndown.default();
@@ -32,6 +38,11 @@ export class EditorStore {
     @action
     public setBody(body: string) {
         this.body = body;
+    }
+
+    @action
+    public setEditorState(editorState: EditorState){
+        this.editorState = editorState;
     }
 
     @action
@@ -60,6 +71,7 @@ export class EditorStore {
                     this.title = article.title;
                     this.description = article.description;
                     this.body = article.body;
+                    this.editorState = createEditorState(convertToRaw(mediumDraftImporter(this.body)));
                     this.tagList = article.tagList;
                 })
             )
@@ -103,8 +115,10 @@ export class EditorStore {
     public submit() {
         this.inProgress = true;
         this.errors = undefined;
+       
+        const renderedHTML = mediumDraftExporter(this.editorState.getCurrentContent());
         const article = Object.assign(emptyArticle(), {
-            body: this.body,
+            body: renderedHTML,
             description: this.description,
             tagList: this.tagList,
             title: this.title

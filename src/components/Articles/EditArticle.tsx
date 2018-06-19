@@ -4,7 +4,6 @@ import CardHeader from '@material-ui/core/CardHeader/CardHeader';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import Grid from '@material-ui/core/Grid/Grid';
 import TextField from '@material-ui/core/TextField/TextField';
-import * as marked from 'marked';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -12,7 +11,7 @@ import { ArticlesStore } from '../../stores/articlesStore';
 import { EditorStore } from '../../stores/editorStore';
 import { ProfileStore } from '../../stores/profileStore';
 import { UserStore } from '../../stores/userStore';
-import CompoundEditor from '../Shared/CompoundEditor';
+import MediumEdtorView from '../Shared/MediumEdtorView';
 import TagChips from '../Shared/TagChips';
 
 interface IRouteParams {
@@ -87,7 +86,6 @@ export default class EditArticle extends React.Component<
             title,
             description,
             tagList,
-            markdownBody,
             inProgress
         } = this.injectedProps.editorStore;
 
@@ -129,11 +127,7 @@ export default class EditArticle extends React.Component<
                             onChange={this.handleDescriptionChange}
                             margin="normal"
                         />
-                        <CompoundEditor
-                            onChange={this.handleBodyChange}
-                            markdownBody={markdownBody}
-                            placeholder="Start your story here..."
-                        />
+                        <MediumEdtorView />
                         <TagChips
                             tags={tagList}
                             onDelete={this.handleDeleteTag}
@@ -174,15 +168,6 @@ export default class EditArticle extends React.Component<
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         this.injectedProps.editorStore.setDescription(event.target.value);
-    };
-
-    private handleBodyChange = (content: string) => {
-        // tslint:disable-next-line:no-console
-        console.log('content:', content);
-        if (!content) {
-            return;
-        }
-        this.injectedProps.editorStore.setBody(marked(content));
     };
 
     private handleAddTag = (event: React.KeyboardEvent<HTMLDivElement>) => {

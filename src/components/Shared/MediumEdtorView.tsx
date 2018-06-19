@@ -1,14 +1,12 @@
-import * as MediumEditor from 'medium-editor';
+import { EditorState } from 'draft-js';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+import { Editor } from '../../../node_modules/medium-draft';
 import { EditorStore } from '../../stores/editorStore';
 
-export interface IMediumEdtorProps {
-    onChange?: (text: string) => void;
-    readonly?: boolean;
-    placeholder?: string;
-    content?: string;
-}
+import 'medium-draft/lib/basic.css';
+import 'medium-draft/lib/index.css';
+
 
 export interface IInjectedMediumEdtorProps {
     editorStore: EditorStore;
@@ -17,65 +15,24 @@ export interface IInjectedMediumEdtorProps {
 @inject('editorStore')
 @observer
 export default class MediumEdtorView extends React.Component<
-    IMediumEdtorProps,
-    any
+    {},
+    {}
 > {
-    private mediumEditorElement: HTMLDivElement | undefined;
-    private editor: MediumEditor.MediumEditor;
-
     get injectedProps() {
         return this.props as IInjectedMediumEdtorProps;
     }
 
-    public componentWillReceiveProps(newProps: IMediumEdtorProps){
-        if(this.props.readonly){
-            return;
-        }
-
-        // tslint:disable-next-line:no-console
-        const injectedNewProps = newProps as IInjectedMediumEdtorProps;
-        if(this.editor && injectedNewProps.editorStore.body !== this.editor.getContent()){
-            this.editor.setContent(injectedNewProps.editorStore.body)
-        }
-    }
-
-    public componentDidMount() {
-        if (this.mediumEditorElement) {
-            const options: MediumEditor.CoreOptions = {
-                disableEditing: this.props.readonly,
-                paste: {
-                    cleanPastedHTML: true,
-                    forcePlainText: false
-                },
-                placeholder: {
-                    hideOnClick: false,
-                    text: this.props.placeholder
-                },
-                toolbar: !this.props.readonly
-            };
-            this.editor = new MediumEditor(this.mediumEditorElement, options);
-            this.mediumEditorElement.style.outline = 'none';
-            this.mediumEditorElement.style.margin = '0 0 20px 0';
-            this.mediumEditorElement.style.padding = '0 0 20px 0';
-            if (this.props.content) {
-                this.editor.setContent(this.props.content);
-            } else {
-                this.editor.setContent(this.injectedProps.editorStore.body);
-            }
-
-            this.editor.subscribe('editableInput', (event, editableInput) => {
-                if (this.props.onChange) {
-                    this.props.onChange(editableInput.innerHTML);
-                }
-            });
-        }
-    }
-
     public render() {
-        return <div className="editableElement" ref={this.initMediumEditor} />;
+        const { editorState } = this.injectedProps.editorStore;
+        return (
+            <Editor
+                editorState={editorState}
+                onChange={this.onEditorChange}
+            />
+        );
     }
 
-    private initMediumEditor = (r: HTMLDivElement) => {
-        this.mediumEditorElement = r;
-    };
+    private onEditorChange = (editorState: EditorState) => {
+        this.injectedProps.editorStore.setEditorState(editorState);
+    }
 }

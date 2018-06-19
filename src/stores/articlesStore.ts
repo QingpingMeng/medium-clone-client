@@ -163,7 +163,7 @@ export class ArticlesStore {
         if (article && article.favorited) {
             article.favorited = false;
             article.favoritesCount--;
-            return agent.Articles.favorite(slug).catch(
+            return agent.Articles.unfavorite(slug).catch(
                 action(err => {
                     article.favorited = true;
                     article.favoritesCount++;

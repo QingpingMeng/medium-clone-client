@@ -1,4 +1,4 @@
-# ![React + Mobx Example App](project-logo.png)
+# React + Mobx + Typescript Example App
 
 > ### React + Mobx codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
 

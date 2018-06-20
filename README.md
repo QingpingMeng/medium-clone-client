@@ -4,7 +4,7 @@
 
 ### [Demo](https://medium.azurewebsites.net/)&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld](https://github.com/gothinkster/realworld)
 
-Originally created this [gothinkster/react-mobx-realworld-example-app repo](https://github.com/gothinkster/react-mobx-realworld-example-app), but is written in Typescript and redesign the UI using material-ui. The codebase is now (hopefully) feature complete; please submit bug fixes via pull requests & feedback via issues.
+Originally created from this [gothinkster/react-mobx-realworld-example-app repo](https://github.com/gothinkster/react-mobx-realworld-example-app), but is written in Typescript and redesign the UI using material-ui. The codebase is now (hopefully) feature complete; please submit bug fixes via pull requests & feedback via issues.
 
 ## Getting started
 
@@ -24,3 +24,15 @@ For convenience, we I have a few live serverless API functions running on AWS fo
 The source code for the backend server (available for Node, Rails and Django) can be found in the [main RealWorld repo](https://github.com/gothinkster/realworld).
 
 If you want to change the API URL to a local server, simply edit `src/agent.js` and change `API_ROOT` to the local server's URL (i.e. `localhost:3000/api`)
+
+
+### Deployment
+This repo supports docker deployment. To generate your own docker image, first you need install docker and then change ``` docker-compose.yml ``` file and change the image name to <your-username-on-dockerhub>/<your-image-name> and run:
+```
+  yarn run docker:prod
+```
+And type 
+```
+  docker push <your-image-name>
+```
+to publich your app image to dockerhub.

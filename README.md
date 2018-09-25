@@ -8,7 +8,7 @@ Originally created from this [gothinkster/react-mobx-realworld-example-app repo]
 
 ## Getting started
 
-You can view a live demo over at https://medium.azurewebsites.net/
+You can view a live demo over at http://medium.qingping.me/
 
 To get the frontend running locally:
 

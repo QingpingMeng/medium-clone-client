@@ -15,7 +15,7 @@ import commonStore from './stores/commonStore';
 const API_ROOT =
     window.location.search.indexOf('debug') > -1
         ? 'http://localhost:3000/api'
-        : 'https://b4xbthy2rk.execute-api.us-east-1.amazonaws.com/prod/apigit';
+        : 'https://b4xbthy2rk.execute-api.us-east-1.amazonaws.com/prod/api';
 
 const responseBody = (res: AxiosResponse) => res.data;
 const encode = encodeURIComponent;

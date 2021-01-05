@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^1.0.0-rc.0",
     "@material-ui/icons": "^1.0.0-rc.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "draft-convert": "^2.1.2",
     "draft-js": "^0.10.5",
     "log4js": "^2.5.3",

@@ -8,7 +8,7 @@
     "axios": "^0.18.0",
     "draft-convert": "^2.1.2",
     "draft-js": "^0.10.5",
-    "log4js": "^2.5.3",
+    "log4js": "^6.4.0",
     "medium-draft": "^0.5.6",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",
